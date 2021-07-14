@@ -42,7 +42,7 @@ export default {
       this.$router.push("/me");
     },
     //获取当前用户地址信息
-    getUserAddressInfo(pageNum = 1, pageSize = 6) {
+    getUserAddressInfo(pageNum = 1, pageSize = 10) {
       let surl = this.baseurl + "/api/select/address/detail";
       this.$axios
         .get(surl, {
@@ -54,7 +54,7 @@ export default {
         })
         .then((resp) => {
           console.log(resp.data);
-          if (resp.data.code == 200) {
+          if (resp.data.code == 1) {
             console.log(resp.data.data);
             this.list = resp.data.data;
             // resp.data.data.forEach((item, index) => {
@@ -65,9 +65,9 @@ export default {
             //   this.list[index].isDefault = item.isDefault;
             // });
             this.list.forEach((item) => {
-              item.id = item.customerAddrId;
-              item.name = item.customer_name;
-              item.tel = item.customer_phone;
+              item.id = item.id;
+              item.name = item.customerName;
+              item.tel = item.customerPhone;
               item.isDefault = item.isDefault;
               //判断是否默认，选择默认
               if (item.isDefault) {
@@ -90,13 +90,28 @@ export default {
     //编辑地址
     onEdit(item, index) {
       this.$router.push({
-        name: "meaddressedit",
+        name: "MeAddressEdit",
         params: { addressinfo: item, index: index },
       });
       this.$toast("编辑地址:" + index);
     },
-    //切换地址切换默认图标  更改默认地址没做
+    //切换地址切换默认图标
     onSelect(item, index) {
+      //更改默认地址
+      let surl = this.baseurl + "/api/update/default/address";
+      console.log(item.id, this.user.id);
+      console.log(this.list);
+      this.$axios
+        .post(surl, "customerId=" + this.user.id + "&id=" + item.id)
+        .then((resp) => {
+          console.log(resp.data);
+          if (resp.data.code == 1) {
+            console.log(resp.data.data);
+            this.$toast.success("操作成功");
+          } else {
+            this.$toast.fail("操作失败");
+          }
+        });
       this.list.forEach((ele) => {
         ele.isDefault = false;
       });

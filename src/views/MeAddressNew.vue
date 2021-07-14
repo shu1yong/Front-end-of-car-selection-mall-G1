@@ -9,7 +9,7 @@
     <van-cell-group style="margin-left: 18px">
       <van-field
         size="large"
-        v-model="userAddressInfo.addrss"
+        v-model="userAddressInfo.address"
         label="地址"
         placeholder="请输入您的收件地址"
       />
@@ -56,7 +56,7 @@ export default {
         .get(surl, { params: { customerId: customerId } })
         .then((resp) => {
           console.log(resp.data);
-          if (resp.data.code == 200) {
+          if (resp.data.code == 1) {
             console.log(resp.data.data);
             this.userInfo = resp.data.data;
             this.$toast.success("操作成功");
@@ -65,9 +65,33 @@ export default {
           }
         });
     },
-    //保存地址
+    //保存新增地址
     saveAddr() {
       console.log(this.userAddressInfo);
+      let surl = this.baseurl + "/api/add/address/detail";
+      this.$axios
+        .post(
+          surl,
+          "customerId=" +
+            this.user.id +
+            "&address=" +
+            this.userAddressInfo.address +
+            "&customerName=" +
+            this.userAddressInfo.customer_name +
+            "&customerPhone=" +
+            this.userAddressInfo.customer_phone
+        )
+        .then((resp) => {
+          console.log(resp.data);
+          if (resp.data.code == 1) {
+            console.log(resp.data.data);
+            this.userInfo = resp.data.data;
+            this.$toast.success("操作成功");
+          } else {
+            this.$toast.fail("操作失败");
+          }
+        });
+      this.$router.push("/meaddress");
     },
   },
 };

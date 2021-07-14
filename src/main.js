@@ -10,8 +10,10 @@ import { Toast } from 'vant';
 
 Vue.use(Toast);
 
+axios.defaults.withCredentials = true
+
 Vue.prototype.$axios = axios
-Vue.prototype.baseurl = 'http://10.20.59.41:8024'
+Vue.prototype.baseurl = 'http://39.106.205.203:8024'
 
 Vue.use(Vant);
 Vue.config.productionTip = false

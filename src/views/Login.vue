@@ -56,8 +56,8 @@ export default {
   name: "Home",
   data() {
     return {
-      username: "",
-      password: "",
+      username: "676394632",
+      password: "12345",
     };
   },
   components: {},
@@ -72,11 +72,12 @@ export default {
       values.密码 = values.密码;
       // this.$router.push("/home");
       this.$axios
-        .post(surl, "userName=" + values.用户名 + "&password=" + values.密码)
+        .post(surl, "loginName=" + values.用户名 + "&password=" + values.密码)
         .then((resp) => {
-          console.log(resp.data.code);
-          if (resp.data.code == 200) {
+          console.log(resp);
+          if (resp.data.code == 1) {
             console.log(resp.data.data);
+            console.log(document.cookie);
             window.sessionStorage.setItem(
               "user",
               JSON.stringify(resp.data.data)

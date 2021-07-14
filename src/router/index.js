@@ -8,6 +8,9 @@ import MeAddressEdit from '../views/MeAddressEdit.vue'
 import MeAddressNew from '../views/MeAddressNew.vue'
 import MeOrder from '../views/MeOrder.vue'
 import Category from '../views/Category.vue'
+import GoodDetail from '../views/GoodDetail.vue'
+import ToBePay from '../views/ToBePay.vue'
+import ToBeReceve from '../views/ToBeReceve.vue'
 
 Vue.use(VueRouter)
 
@@ -26,6 +29,11 @@ const routes = [
     path: '/category',
     name: 'Category',
     component: Category
+  },
+  {
+    path: '/gooddetail',
+    name: 'GoodDetail',
+    component: GoodDetail
   },
   {
     path: '/me',
@@ -51,6 +59,16 @@ const routes = [
     path: '/meorder',
     name: 'MeOrder',
     component: MeOrder
+  },
+  {
+    path: '/tobepay',
+    name: 'ToBePay',
+    component: ToBePay
+  },
+  {
+    path: '/tobereceve',
+    name: 'ToBeReceve',
+    component: ToBeReceve
   },
   {
     path: '/about',

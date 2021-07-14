@@ -9,19 +9,19 @@
     <van-cell-group style="margin-left: 18px">
       <van-field
         size="large"
-        v-model="userAddressInfo.addrss"
+        v-model="userAddressInfo.address"
         label="地址"
         placeholder="请输入您的收件地址"
       />
       <van-field
         size="large"
-        v-model="userAddressInfo.customer_name"
+        v-model="userAddressInfo.customerName"
         label="收件人"
         placeholder="请输入您的收件人姓名"
       />
       <van-field
         size="large"
-        v-model="userAddressInfo.customer_phone"
+        v-model="userAddressInfo.customerPhone"
         label="手机号"
         placeholder="请输入您的手机号"
       />
@@ -46,6 +46,7 @@ export default {
     // console.log(this.user.id);
     //获取传过来的地址，地址index
     this.userAddressInfo = this.$route.params.addressinfo;
+    console.log(this.userAddressInfo);
     this.index = this.$route.params.index;
   },
   methods: {
@@ -53,14 +54,28 @@ export default {
     onClickmeAddressEditLeft() {
       this.$router.push("/meaddress");
     },
-    //
-    getUserOrderInfo(customerId) {
-      let surl = this.baseurl + "/api/select/user/info";
+
+    //保存编辑地址
+    saveAddr() {
+      console.log(this.userAddressInfo);
+      let surl = this.baseurl + "/api/update/address/detail";
       this.$axios
-        .get(surl, { params: { customerId: customerId } })
+        .post(
+          surl,
+          "customerId=" +
+            this.user.id +
+            "&id=" +
+            this.userAddressInfo.id +
+            "&address=" +
+            this.userAddressInfo.address +
+            "&customerName=" +
+            this.userAddressInfo.customerName +
+            "&customerPhone=" +
+            this.userAddressInfo.customerPhone
+        )
         .then((resp) => {
-          console.log(resp.data);
-          if (resp.data.code == 200) {
+          console.log(resp);
+          if (resp.data.code == 1) {
             console.log(resp.data.data);
             this.userInfo = resp.data.data;
             this.$toast.success("操作成功");
@@ -68,10 +83,7 @@ export default {
             this.$toast.fail("操作失败");
           }
         });
-    },
-    //保存地址
-    saveAddr() {
-      console.log(this.userAddressInfo);
+      this.$router.push("/meaddress");
     },
     //删除地址
     deleteAddr() {

@@ -116,7 +116,7 @@ export default {
         .get(surl, { params: { customerId: customerId } })
         .then((resp) => {
           console.log(resp.data);
-          if (resp.data.code == 200) {
+          if (resp.data.code == 1) {
             console.log(resp.data.data);
             this.userInfo = resp.data.data;
             this.$toast.success("操作成功");
@@ -132,7 +132,7 @@ export default {
     },
     //确认修改用户信息
     updateMeInfoConfirm() {
-      let surl = this.baseurl + "/api/upadte/user/info";
+      let surl = this.baseurl + "/api/update/user/info";
       //修改用户昵称
       if (this.userInfotemp.customerName !== this.userInfo.customerName) {
         console.log(this.userInfo.customerName);
@@ -143,11 +143,11 @@ export default {
             "customerId=" +
               this.user.id +
               "&customerName=" +
-              this.userInfo.customerName
+              this.userInfotemp.customerName
           )
           .then((resp) => {
             console.log(resp.data);
-            if (resp.data.code == 200) {
+            if (resp.data.code == 1) {
               this.userInfo.customerName = this.userInfotemp.customerName;
               console.log(resp.data.data);
               // this.userInfo = resp.data.data;
@@ -162,15 +162,16 @@ export default {
         console.log(this.userInfo.customerDesc);
         console.log(this.user.id);
         this.$axios
-          .post(surl, {
-            params: {
-              customerId: this.user.id,
-              customerDesc: this.userInfo.customerDesc,
-            },
-          })
+          .post(
+            surl,
+            "customerId=" +
+              this.user.id +
+              "&customerDesc=" +
+              this.userInfotemp.customerDesc
+          )
           .then((resp) => {
             console.log(resp.data);
-            if (resp.data.code == 200) {
+            if (resp.data.code == 1) {
               this.userInfo.customerDesc = this.userInfotemp.customerDesc;
               console.log(resp.data.data);
               // this.userInfo = resp.data.data;
